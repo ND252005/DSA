@@ -73,7 +73,7 @@ int main() {
 		}
 		if(x == 2) {
 			int a, b; cin >> a >> b;
-			add_after(L, a, b); 
+			// add_after(L, a, b); 
 		}
 	}
 	print_list(L);
