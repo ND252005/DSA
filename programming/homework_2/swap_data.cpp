@@ -43,7 +43,7 @@ void outputList(List L) {
     } else {
         node *p = L.pHead;
         while(p) {
-            cout << p->info << ' ' ;
+            cout << p->info << ' ';
             p = p->next;
         }
         cout << endl;
@@ -51,7 +51,6 @@ void outputList(List L) {
 }
 node* swapData(List &L, int x, int y) {
     if(!L.pHead) {
-        cout << "Can not swap";
         return nullptr;
     } else {
         node *px = L.pHead;
@@ -66,11 +65,6 @@ node* swapData(List &L, int x, int y) {
             py = py->next;
         }
         if(px == nullptr || py == nullptr) {
-            cout << "Can not swap";
-            return nullptr;
-        }
-        if(px->info == py->info) {
-            cout << "Can not swap";
             return nullptr;
         }
 
