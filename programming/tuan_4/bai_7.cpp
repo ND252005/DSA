@@ -122,6 +122,196 @@ void addBefore(DList &l, int x, int y) {
     }
     cout << "\nCan't find the value "<<x;
 }
+void addAfterMulti(DList &l, int x, int y) {
+    DNode *p1 = l.pHead;
+    DNode *p2;
+    bool found = false;  // Cờ để kiểm tra xem có tìm thấy giá trị x không
+
+    while (p1) {
+        if (p1->info == x) {
+            found = true;
+            p2 = get_node(y);
+
+            if (p1 == l.pTail) {
+                // Nếu p1 là pTail, thêm p2 vào cuối danh sách
+                l.pTail->pNext = p2;
+                p2->pPrev = l.pTail;
+                p2->pNext = nullptr;
+                l.pTail = p2;
+            } else {
+                // Nếu không, chèn p2 sau p1
+                p2->pNext = p1->pNext;
+                p1->pNext->pPrev = p2;
+                p1->pNext = p2;
+                p2->pPrev = p1;
+            }
+        }
+        p1 = p1->pNext;
+    }
+
+    if (!found) {
+        cout << "\nCan't find the value " << x;
+    }
+}
+
+void addBeforeMulti(DList &l, int x, int y) {
+    DNode *p1 = l.pHead;
+    DNode *p2;
+    bool found = false;  // Cờ để kiểm tra xem có tìm thấy giá trị x không
+
+    while (p1) {
+        if (p1->info == x) {
+            found = true;
+            p2 = get_node(y);
+
+            if (p1 == l.pHead) {
+                // Nếu p1 là pHead, thêm p2 vào đầu danh sách
+                l.pHead->pPrev = p2;
+                p2->pNext = l.pHead;
+                p2->pPrev = nullptr;
+                l.pHead = p2;
+            } else {
+                // Nếu không, chèn p2 trước p1
+                p1->pPrev->pNext = p2;
+                p2->pPrev = p1->pPrev;
+                p2->pNext = p1;
+                p1->pPrev = p2;
+            }
+        }
+        p1 = p1->pNext;
+    }
+
+    if (!found) {
+        cout << "\nCan't find the value " << x;
+    }
+}
+void removeHead(DList &l) {
+    if (l.pHead == nullptr) {
+        cout << "\nList is empty. Can't delete";
+        return;
+    }
+
+    char choice;
+    cout << "\nDo you want to delete the first element?(y/n): ";
+    cin >> choice;
+
+    if (choice == 'y' || choice == 'Y') {
+        if (l.pHead == l.pTail) {
+            // Nếu danh sách chỉ có 1 phần tử
+            delete l.pHead;
+            l.pHead = l.pTail = nullptr;
+            cout << "\nThe list becomes empty";
+        } else {
+            // Xóa phần tử đầu tiên
+            DNode *temp = l.pHead;
+            l.pHead = l.pHead->pNext;
+            l.pHead->pPrev = nullptr;
+            delete temp;
+        }
+    }
+}
+
+void removeTail(DList &l) {
+    if (l.pTail == nullptr) {
+        cout << "\nList is empty. Can't delete";
+        return;
+    }
+
+    char choice;
+    cout << "\nDo you want to delete the last element?(y/n): ";
+    cin >> choice;
+
+    if (choice == 'y' || choice == 'Y') {
+        if (l.pHead == l.pTail) {
+            // Nếu danh sách chỉ có 1 phần tử
+            delete l.pTail;
+            l.pHead = l.pTail = nullptr;
+            cout << "\nThe list becomes empty";
+        } else {
+            // Xóa phần tử cuối
+            DNode *temp = l.pTail;
+            l.pTail = l.pTail->pPrev;
+            l.pTail->pNext = nullptr;
+            delete temp;
+        }
+    }
+}
+void removeNode(DList &l, int x) {
+    if (l.pHead == nullptr) {
+        cout << "\nList is empty. Can't delete";
+        return;
+    }
+
+    DNode *p = l.pHead;
+    while (p != nullptr && p->info != x) {
+        p = p->pNext;
+    }
+
+    if (p == nullptr) {
+        cout << "\nCan't find the value " << x;
+        return;
+    }
+
+    char choice;
+    cout << "\nDo you want to delete " << x << " ?(y/n): ";
+    cin >> choice;
+
+    if (choice == 'y' || choice == 'Y') {
+        if (p == l.pHead) {
+            removeHead(l);
+        } else if (p == l.pTail) {
+            removeTail(l);
+        } else {
+            p->pPrev->pNext = p->pNext;
+            p->pNext->pPrev = p->pPrev;
+            delete p;
+        }
+        if (l.pHead == nullptr) cout << "\nThe list becomes empty";
+    }
+}
+
+void removeMultiNodes(DList &l, int x) {
+    if (l.pHead == nullptr) {
+        cout << "\nList is empty. Can't delete";
+        return;
+    }
+
+    DNode *p = l.pHead;
+    bool found = false;
+
+    cout << "\nDo you want to delete " << x << "s ?(y/n): ";
+    char choice;
+    cin >> choice;
+
+    if (choice != 'y' && choice != 'Y') return;
+
+    while (p != nullptr) {
+        if (p->info == x) {
+            found = true;
+            DNode *temp = p;
+            p = p->pNext;
+
+            if (temp == l.pHead) {
+                removeHead(l);
+            } else if (temp == l.pTail) {
+                removeTail(l);
+            } else {
+                temp->pPrev->pNext = temp->pNext;
+                temp->pNext->pPrev = temp->pPrev;
+                delete temp;
+            }
+        } else {
+            p = p->pNext;
+        }
+    }
+
+    if (!found) {
+        cout << "\nCan't find the value " << x;
+    } else if (l.pHead == nullptr) {
+        cout << "\nThe list becomes empty";
+    }
+}
+
 
 
 int main()
