@@ -55,6 +55,7 @@ node* removeLeafs(Tree T)
     T->right = removeLeafs(T->right);
     return T;
 }
+//xóa node lá trên cây là duyệt cây đến khi nào t left và t right = nullptr thì xóa node đó đi. 
 
 int main()
 {
