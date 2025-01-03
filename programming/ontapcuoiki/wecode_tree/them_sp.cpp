@@ -1,73 +1,67 @@
-
 #include <iostream>
-#include <string>
 using namespace std;
 
-
-typedef struct Product {
+typedef struct Poduct {
     int id;
     string name;
-    string type;
+    string type; 
     int year;
     int warranty;
-} PRO ;
-
-struct node {
+}PRO;
+struct Node {
     PRO info;
-    node *left, *right;
+    Node *left;
+    Node *right; 
 };
-typedef struct node* Tree;
+typedef struct Node* Tree;
 
-node* get_node(PRO x) {
-    node *p = new node();
+Node *get_node(PRO x) {
+    Node* p = new Node();
     p->info = x;
-    p->left = p->right = nullptr;
+    p->left = p-> right = nullptr;
     return p;
 }
-
-void insert(Tree &T, PRO x) {
+void insert_node(Tree &T, PRO x) {
     if(T) {
-        if(T->info.id > x.id) insert(T->left, x);  
-        if(T->info.id < x.id) insert(T->right, x);  
+        if(T->info.id > x.id) insert_node(T->left, x);
+        if(T->info.id < x.id) insert_node(T->right, x);
     } else {
         T = get_node(x);
     }
 }
-
 void inputTree(Tree &T) {
     int n; cin >> n;
     for(int i = 0; i < n; i++) {
-        PRO x;
+        PRO x; 
         cin >> x.id;
-        cin.ignore(); getline(cin, x.name);
-        getline(cin, x.type);
-        cin >> x.year;
+        getline(cin >> ws, x.name);
+        getline(cin >> ws, x.type);
+        cin >> x.year; 
         cin >> x.warranty;
-        insert(T, x);        
+        insert_node(T, x);
     }
 }
 //NLR
-void listProduct(Tree T, string type) {
+void listProduct(Tree &T, string type) {
     if(T) {
         if(T->info.type == type) {
             cout << "\n" << T->info.id << "\t" << T->info.name << "\t";
             cout << T->info.type << "\t" << T->info.year << "\t" << T->info.warranty << "\n";
         }
-        if(T->left) listProduct(T->left, type);
-        if(T->right) listProduct(T->right, type);
+        listProduct(T->left, type);
+        listProduct(T->right, type);
     }
+
 }
-int dem = 0;
-int countProduct(Tree &T, int year) {
+int count = 0;
+int countProduct(Tree &T, int warrant) {
     if(T) {
-        if(T->info.warranty > year) dem++;
-        if(T->left) countProduct(T->left, year);
-        if(T->right) countProduct(T->right, year);
+        if(T->info.warranty > warrant) count++;
+        countProduct(T->left, warrant);
+        countProduct(T->right, warrant);
     }
-    return dem;
+    return count;
 }
-
-
 
 
 int main()
@@ -86,4 +80,3 @@ int main()
 
 	return 0;
 }
-

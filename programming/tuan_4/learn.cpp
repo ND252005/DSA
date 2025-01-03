@@ -36,9 +36,7 @@ void insert_tail(List &L, int x) {
 }
 void insert_back_element(List &L, int a, int b) {
     Node *px = get_node(a);
-    if (!L.head) { // Trường hợp danh sách rỗng
-        return;
-    } 
+    if (!L.head) return; 
 
     if (L.head == L.tail) { // Trường hợp danh sách có một phần tử
         if (L.head->info == b) {
